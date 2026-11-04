@@ -1,0 +1,266 @@
+# Diecast Radar — copia este fichero a config.yaml y rellena los avisos.
+timezone: Europe/Madrid
+db_path: data/radar.db
+
+web:
+  enabled: true
+  host: 0.0.0.0        # accesible por Tailscale: http://homelab2:8791
+  port: 8791
+
+notify:
+  # Avisos: los recoge la APK "Diecast Radar" del móvil por Tailscale (endpoint /api/events).
+  # No hace falta nada más. ntfy y Telegram quedan como alternativas opcionales.
+  ntfy:
+    enabled: false
+    server: http://127.0.0.1:2586   # el ntfy que instala install.sh en esta Pi
+    topic: diecast
+  telegram:
+    enabled: false
+    token: ""
+    chat_id: ""
+  quiet_hours: "01:00-08:00"   # de noche guarda los avisos y los manda al acabar
+  max_individual: 8            # si hay más avisos de golpe, manda un resumen
+  panel_url: http://homelab2:8791
+
+filters:
+  brands: [tarmac, minigt, poprace, kaido, rlc]
+  only_164: true       # descarta títulos con 1/18, 1/43, 1/12...
+  include: []          # si pones palabras, SOLO avisa de esas (p. ej. ["skyline", "porsche", "lbwk"])
+  exclude:             # nunca guardar (merchandising, accesorios...)
+    - "t-?shirt|camiseta|\\btee\\b|hoodie|sudadera|gorra|\\bcap\\b|snapback|\\bhat\\b"
+    - "sticker|pegatina|\\bpin\\b|lanyard|llavero|keychain|poster|p[oó]ster"
+    - "vitrina|display case|showcase|acr[ií]lic|caja expositora|gift card|tarjeta regalo"
+    - "graded slab|tarmac cards \\(pack\\)"
+
+# Pestañas propias en el panel: las fuentes con `section: <clave>` salen ahí y no en "Tiendas y webs".
+# Con `keep_all: true` se guarda TODO lo que publique la tienda (sin filtro de marca ni escala);
+# solo se avisa de tus marcas o de cualquier preorder (pon `alert_all: true` para avisar de todo).
+sections:
+  - key: overnight
+    label: "🛒 Overnight"
+    groups:
+      - title: Marcas
+        items:
+          Mini GT: ["~Mini GT", mini-gt, mini-gt-en-caja, mini-gt-en-blister, preorder-mini-gt]
+          Kaido House: ["~Kaido", kaido-house]
+          Qube Carz: ["~Qube", qube-carz]
+          Tarmac Works: ["~Tarmac", tarmac-works]
+          Pop Race: ["~Pop Race", pop-race, pop-race-enigma]
+          Inno64: ["~Inno64", inno64]
+          Greenlight: ["~Greenlight", greenlight]
+          Hot Wheels: ["~Hot Wheels", hot-wheels]
+          Spark: ["~Spark", spark]
+          Tomica: ["~Tomica", tomica, choro-q]
+          Matchbox: ["~Matchbox"]
+          Majorette: ["~Majorette"]
+          Maisto: ["~Maisto"]
+          Solido: ["~Solido"]
+          Norev: ["~Norev"]
+          Johnny Lightning: ["~Johnny Lightning"]
+          Para64: ["~Para64"]
+      - title: Hot Wheels
+        items:
+          Básicos: [hw-individual, hw-packs, hot-wheels-basicos]
+          XL: [xl]
+          Premium: [hot-wheels-premium, hw-premium-individuales, hw-premium-series-completas, hot-wheels-cajas-completas]
+          Team Transport: [team-transport]
+          Pack 2: [pack-2]
+          Diorama: [hw-diorama]
+          Silver Series: [hw-series-especiales, hw-silver-series-completas, hw-silver-individuales]
+      - title: Secciones
+        items:
+          Preorders: [preorder-mini-gt, preorder-tarmac-works, pre-orders-pop-race, preorder-hot-wheels, pre-orders]
+          Llegada inminente: [llegada-inminente]
+  - key: hotwheelsspain
+    label: "🏎️ Hot Wheels Spain"
+    groups:
+      - title: Marcas
+        items:
+          Mini GT: [tienda-mini-gt-espana, qubecarz-por-mini-gt]
+          Kaido House: [tienda-kaido-house-espana]
+          Pop Race: [tienda-pop-race-espana, enigma-exclusive-edition-distributor, tokyo-station-exclusives, pop-race-spain-online-store]
+          Tarmac Works: [tienda-tarmac-works-diecast]
+          M2 Machines: [m2-machines-spain-online-store, auto-haulers-m2-machines-spain, auto-thentics, coca-cola-m2-machines-store, detroit-muscle-m2-machines-spain, ground-pounders, hobby-exclusive-m2-machines-store, mijo-exclusives-m2-machines-store-spain]
+          Hot Wheels: [tienda-hot-wheels, hot-wheels-store, hot-wheels-premium, premium-unidades, car-culture-juegos-cajas-selladas]
+          Silver Series: [hot-wheels-series-silver]
+          Matchbox: [matchbox, matchbox-store]
+          Inno64: [inno64-espana]
+          Greenlight: [greenlight]
+          Maisto: [maisto]
+          Majorette: [majorette-espana]
+          Jada: [jada, jada-pink-slips-1-18]
+          IXO: [ixo-models, ixo-models-1-18]
+          BBR: [bbr-models-1-64, bbr-models-1-18, bbr-models-1-43]
+          Auto World: [tienda-auto-world-diecast-espana]
+          Street Weapon: [Street Weapon]
+          Street Warrior: [Street Warrior]
+          Autobots Models: [Autobots Models]
+          Para64: [distribuidores-para64-espana]
+          Solido: [solido-1-18, solido-1-43]
+          Otras marcas: [car-tuned, cm-model, almost-real, motorhelix, muscle-machines, trends-hobby, works-model, tsm-models-1-43, top-speed-1-18, whitebox-1-24, mega-gear]
+      - title: Hot Wheels
+        items:
+          Collector Editions: ["Hot Wheels - Collector Editions"]
+          Neon Speeders: ["Hot Wheels - Neon Speeders"]
+          Básicos: ["Hot Wheels Básicos", "Hot Wheels Básicos - 5 Packs"]
+          XL 1:43: ["Hot Wheels XL 1:43"]
+          Boulevard: ["Hot Wheels Boulevard (GJT68)"]
+          Car Culture: ["Hot Wheels Premium - Car Culture - 2-Packs (HBL96)", "Hot Wheels Premium - Car Culture (FPY86)", "Hot Wheels Premium - Car Culture - Team Transport"]
+          Pop Culture: ["Hot Wheels Premium - Pop Culture (HXD63)"]
+          Fast & Furious: ["Hot Wheels Premium Fast & Furious (HNW46)"]
+          Premium (todo): ["Hot Wheels Premium"]
+      - title: Secciones
+        items:
+          Pre-Orders: [pre-orders]
+          Pre-Orders Miembros: [pre-orders-miembros]
+          Novedades: [novedades]
+          En camino: [productos-en-camino-al-almacen, "En Camino - Estamos Llegando"]
+          Chases: [chases]
+          STH / TH: [sth-th]
+          Importaciones: [importaciones-diecast]
+          Accesorios: [accesorios, expositores, protectores-hot-wheels]
+          Otras escalas: [otras-escalas]
+
+sources:
+  # ==================== WEBS OFICIALES ====================
+  - name: Tarmac Works (oficial)
+    kind: official
+    platform: shopify
+    url: https://www.tarmacworks.com
+    currency: USD
+    every_minutes: 30
+    default_brand: tarmac
+    brands: [tarmac]
+
+  - name: Kaido House (oficial)
+    kind: official
+    platform: shopify
+    url: https://www.kaidohouse.com
+    currency: USD
+    every_minutes: 30
+    default_brand: kaido
+    brands: [kaido]
+    require: ["1\\s?[/:]\\s?64|diecast|die-cast|KHMG|mini ?gt"]   # su tienda tiene mucha ropa
+
+  - name: Mattel Creations (RLC)
+    kind: official
+    platform: shopify
+    url: https://creations.mattel.com
+    collection: hot-wheels-collectors      # si falla, quita esta línea (revisa toda la tienda)
+    currency: USD
+    every_minutes: 20
+    max_pages: 4
+    brands: [rlc]
+
+  - name: Mini GT (oficial)
+    kind: official
+    platform: minigt
+    every_minutes: 60
+    default_brand: minigt
+    brands: [minigt, kaido]
+
+  - name: Pop Race (oficial)
+    kind: official
+    platform: shopify     # su tienda; www.poprace.net es solo informativa y está sin actualizar desde 2023
+    url: https://shop.poprace.net
+    collection: 1-64
+    currency: HKD
+    every_minutes: 60
+    default_brand: poprace
+    brands: [poprace]
+
+  # ==================== TIENDAS ESPAÑOLAS ====================
+  - name: Overnight (preorders)
+    platform: prestashop
+    section: overnight
+    keep_all: true
+    url: https://overnight.es
+    preorder: true
+    every_minutes: 45
+    categories:
+      - https://overnight.es/106-preorder-mini-gt
+      - https://overnight.es/125-preorder-tarmac-works
+      - https://overnight.es/132-pre-orders-pop-race
+      - https://overnight.es/136-preorder-hot-wheels
+      - https://overnight.es/83-pre-orders
+    brands: [minigt, kaido, tarmac, poprace, rlc]
+
+  - name: Overnight (próximamente)
+    platform: prestashop
+    section: overnight
+    keep_all: true
+    url: https://overnight.es
+    preorder: true
+    every_minutes: 60
+    categories: [https://overnight.es/82-llegada-inminente]
+
+  - name: Overnight (catálogo 1:64)
+    platform: prestashop
+    section: overnight
+    keep_all: true
+    url: https://overnight.es
+    every_minutes: 180       # catálogo completo (~1.340 artículos, 12 por página): se revisa menos para no cargar la web
+    max_pages: 120           # 112 páginas a día de hoy, de las más nuevas a las más viejas
+    categories: ["https://overnight.es/6-escala-164?order=product.date_add.desc"]
+    brands: [minigt, kaido, tarmac, poprace, rlc]
+
+  - name: Overnight (Kaido House)
+    platform: prestashop
+    section: overnight
+    keep_all: true
+    url: https://overnight.es
+    only_preorder: false     # avisa de cualquier Kaido nuevo que suban
+    every_minutes: 60
+    categories: [https://overnight.es/102-kaido-house]
+    brands: [kaido]
+
+  - name: Hot Wheels Spain
+    platform: woocommerce
+    section: hotwheelsspain
+    keep_all: true
+    url: https://hotwheelsspain.com
+    every_minutes: 45
+    max_pages: 15           # hasta 1500 artículos, de los más nuevos a los más viejos
+
+  - name: Coches de Metal
+    platform: auto
+    url: https://cochesdemetal.es
+    only_preorder: true
+    every_minutes: 120
+    enabled: false        # actívala tras probarla con: python -m radar check --source "coches de metal"
+    categories:
+      - https://cochesdemetal.es/es/miniaturas-de-mini-gt
+      - https://cochesdemetal.es/es/miniaturas-tarmac-works
+
+  # ==================== INSTAGRAM ====================
+  # Usa tu bot de Instagram (panel-completo) como librería: su bot.py y la sesión de su cookies.json.
+  # Las cuentas se gestionan desde el panel (sección "Cuentas de Instagram"); esta lista es solo la inicial.
+  - name: Instagram
+    platform: instagram
+    every_minutes: 90          # cada ronda revisa todas las cuentas con pausas entre ellas
+    options:
+      bot_dir: ../panel-completo/panel   # carpeta del bot de Instagram (relativa a este config.yaml)
+      account: mi_cuenta                # sesión que usa (de las guardadas en el panel de Instagram)
+      stories: true
+      ocr: true                # leer el texto de las historias (tesseract)
+      ocr_posts: true          # y de los posts con pie de foto corto
+      max_age_hours: 72        # posts más viejos (fijados, etc.) se guardan sin avisar
+      pause_seconds: [15, 40]
+    accounts:
+      # --- oficiales
+      - {user: tarmacworks, brand: tarmac, kind: official}
+      - {user: tarmac.works, brand: tarmac, kind: official}
+      - {user: tarmacjapan64, brand: tarmac, kind: official}
+      - {user: minigt64, brand: minigt, kind: official}
+      - {user: minigt_official, brand: minigt, kind: official}
+      - {user: kaidohousegarage, brand: kaido, kind: official}
+      - {user: kaidohouse, brand: kaido, kind: official}
+      - {user: poprace__, brand: poprace, kind: official}
+      - {user: hotwheelscollectors, brand: rlc, kind: official}
+      - {user: mattelcreations, kind: official}
+      # --- novedades / filtraciones
+      - {user: lamleygroup, kind: news}
+      - {user: diecastsociety, kind: news}
+      - {user: diecasthype, kind: news}
+      # --- tiendas españolas (anuncian sus preorders)
+      - {user: overnight_spain, kind: shop}

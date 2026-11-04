@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+data/
+config.yaml
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.apk
+
+# Clave de firma de la APK: va en GitHub Secrets, nunca en el repo
+*.jks
+*.keystore

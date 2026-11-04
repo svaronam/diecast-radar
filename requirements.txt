@@ -1,0 +1,8 @@
+requests>=2.31
+beautifulsoup4>=4.12
+PyYAML>=6.0
+flask>=3.0
+waitress>=3.0
+tzdata  # zona horaria en Windows
+# Opcional pero recomendado: imita a Chrome y evita bloqueos (Mattel Creations...)
+curl_cffi>=0.7

@@ -1,0 +1,39 @@
+name: APK Diecast Radar
+
+on:
+  push:
+    paths: ["android/**", ".github/workflows/apk.yml"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar la clave de firma (GitHub Secrets)
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then echo "::error::Falta el secreto KEYSTORE_BASE64. Ver INSTALACION.md"; exit 1; fi
+          mkdir -p "$(dirname "$GITHUB_WORKSPACE/android/app/radar.keystore")"
+          echo "$KEYSTORE_BASE64" | base64 -d > "$GITHUB_WORKSPACE/android/app/radar.keystore"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
+      - name: Compilar APK
+        run: gradle assembleRelease --no-daemon --stacktrace
+      - name: Renombrar
+        run: cp app/build/outputs/apk/release/app-release.apk DiecastRadar.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiecastRadar-apk
+          path: android/DiecastRadar.apk
