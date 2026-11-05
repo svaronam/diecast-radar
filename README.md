@@ -11,6 +11,21 @@ Bot que vigila **lanzamientos y preorders de coches de colección a escala 1:64*
 - **Avisos ricos** con foto, precio y enlaces, con horas de silencio y agrupación en resumen si hay muchos a la vez.
 - **Panel web** para el móvil con filtros y revisión manual, y alta de nuevas tiendas desde el propio panel.
 
+## Capturas
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/capturas/overnight.png" width="260" alt="Catálogo 1:64 de una tienda española con estado, precio y antigüedad de cada producto"></td>
+    <td align="center"><img src="docs/capturas/tiendas.png" width="260" alt="Webs oficiales de fabricantes: modelos anunciados y en stock, filtrables por marca y estado"></td>
+    <td align="center"><img src="docs/capturas/hotwheels.png" width="260" alt="Preorders de Hot Wheels detectados en una tienda"></td>
+  </tr>
+  <tr>
+    <td align="center">Tienda española</td>
+    <td align="center">Webs oficiales</td>
+    <td align="center">Preorders</td>
+  </tr>
+</table>
+
 ## Arquitectura
 
 ```
